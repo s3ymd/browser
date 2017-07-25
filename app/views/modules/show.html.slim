@@ -1,0 +1,93 @@
+span.app_name
+    | [Ruby Object Browser]
+
+| &nbsp;
+
+- mods = []
+- mods << BasicObject
+- mods << Kernel
+- mods << Object
+- mods << String
+- mods << Array
+- mods << Hash
+- mods << Range
+- mods << Enumerable
+- mods << Comparable
+- mods << Class
+- mods << Module
+- mods << Proc
+- mods << Method
+- mods << Regexp
+- mods << MatchData
+- mods << Struct
+- mods << Date
+- mods << Time
+- mods << Integer
+- mods << Float
+- mods << Math
+- mods << IO
+- mods << Dir
+- mods << File
+- mods << Pathname
+- mods << Exception
+- mods << Thread
+
+- mods << ActionCable
+- mods << ActionController
+- mods << ActionDispatch
+- mods << ActionMailer
+- mods << ActionPack
+- mods << ActionView
+- mods << ActiveJob
+- mods << ActiveModel
+- mods << ActiveRecord
+- mods << ActiveSupport
+
+- mods.each do |mod|
+    a href="/modules/#{mod}" = mod
+    = ' '
+
+h1.title
+    - if @module.is_a?(Class)
+        | クラス:
+    - else
+        | モジュール:
+    = @module
+
+h1 継承
+
+- @module.ancestors.reverse.each_with_index do |m, i|
+    == '&nbsp;' * i * 2
+    a href="/modules/#{m}" = m
+    br
+
+h1 定数
+table
+    tr
+        /th 所属
+        th 名称
+        th 値
+        th 値のクラス
+    - @constants.each do |m|
+        tr
+            /td = m.module
+            td = m.name
+            - if m.value.is_a? Module
+                td: a href="/modules/#{m.value}" = m.value
+            - else
+                td = m.value
+            td = m.value_class
+
+h1 メソッド
+table
+    tr
+        /th 所属
+        th 種別
+        th 名称
+        th 呼出制限
+    - @methods.each do |m|
+        tr
+            /td = m.module
+            td = m.method_type
+            td = m.name
+            td = m.visibility
