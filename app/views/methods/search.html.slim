@@ -1,0 +1,20 @@
+h1 メソッド検索
+
+= form_for :search, url: '/methods/search' do |f|
+    = f.label :pattern, '検索パターン（正規表現）:'
+    = f.text_field :pattern, value: @pattern
+    = f.submit '検索'
+
+br
+
+table
+    tr
+        th モジュール/クラス
+        th メソッド
+        th 種別
+    - @result.each do |row|
+        tr
+            td: a href="/modules/#{row[0]}" = row[0]
+            td = row[1]
+            td = row[2]
+            
